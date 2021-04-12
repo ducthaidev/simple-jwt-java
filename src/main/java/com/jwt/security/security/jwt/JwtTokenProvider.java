@@ -1,5 +1,6 @@
-package com.jwt.security.security;
+package com.jwt.security.security.jwt;
 
+import com.jwt.security.security.model.UserDetailsImpl;
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

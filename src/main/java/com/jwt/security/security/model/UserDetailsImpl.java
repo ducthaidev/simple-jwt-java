@@ -1,4 +1,4 @@
-package com.jwt.security.security;
+package com.jwt.security.security.model;
 
 import com.jwt.security.model.User;
 import lombok.AllArgsConstructor;
@@ -47,6 +47,6 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 }

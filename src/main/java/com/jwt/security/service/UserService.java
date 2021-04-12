@@ -2,7 +2,7 @@ package com.jwt.security.service;
 
 import com.jwt.security.model.User;
 import com.jwt.security.repository.UserRepository;
-import com.jwt.security.security.UserDetailsImpl;
+import com.jwt.security.security.model.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,10 +17,10 @@ public class UserService implements UserDetailsService {
     private UserRepository userRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
-        Optional<User> user = userRepository.findById(Long.parseLong(id));
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Optional<User> user = userRepository.findByUsername(username);
         if (!user.isPresent()) {
-            throw new UsernameNotFoundException(id.toString());
+            throw new UsernameNotFoundException(username);
         }
         return new UserDetailsImpl(user.get());
     }

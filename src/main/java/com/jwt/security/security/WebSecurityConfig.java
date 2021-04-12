@@ -1,7 +1,9 @@
 package com.jwt.security.security;
 
+import com.jwt.security.security.jwt.JwtAuthenticationFilter;
 import com.jwt.security.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,6 +14,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import javax.servlet.annotation.WebServlet;
 
 @Configuration
 @EnableWebSecurity
@@ -38,22 +42,26 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        super.configure(auth);
+//        auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
         auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-            http
-                .cors()
+        http
+            .cors()
                 .and()
-                .csrf()
-                    .disable()
-                .authorizeRequests()
-                .antMatchers("/api/login").permitAll()
-                .antMatchers("/abc/xyz").permitAll()
-                .anyRequest().authenticated();
+            .csrf()
+                .disable()
+            .authorizeRequests()
+            .antMatchers("/h2/**").permitAll()
+            .antMatchers("/api/auth/**").permitAll()
+            .antMatchers("/abc/xyz").permitAll()
+            .anyRequest().authenticated();
 
-            http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+
+        http.headers().frameOptions().disable();
+
     }
 }

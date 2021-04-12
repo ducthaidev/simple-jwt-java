@@ -1,4 +1,4 @@
-package com.jwt.security.security;
+package com.jwt.security.security.jwt;
 
 import com.jwt.security.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
